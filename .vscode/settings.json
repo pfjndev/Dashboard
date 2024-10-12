@@ -2,6 +2,9 @@
     "java.project.sourcePaths": ["src"],
     "java.project.outputPath": "bin",
     "java.project.referencedLibraries": [
-        "lib/**/*.jar"
+        // All jars on lib/ are added to the classpath
+        "lib/**/*.jar",
+        // Everything on lib/jogamp-all-platforms/jar/ is added to the classpath
+        "lib/jogamp-all-platforms/jar/**/*.jar"
     ]
 }
