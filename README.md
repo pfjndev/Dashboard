@@ -1,5 +1,11 @@
 # 2D Practical Work
 
+### Problem Description: Dashboard for data presentation
+    
+    Implement an application that simulates a dashboard to present data visually, through a set of graphic blocks of your choice.
+    
+    Implement blocks in the form of functions or classes and include interaction and animation in some of them. Get inspired by the dashboard in the image..
+
 <br>
 
 > Year: 3rd <br> Student ID: 1705125 <br> Author: Pedro Filipe Justo Nunes
