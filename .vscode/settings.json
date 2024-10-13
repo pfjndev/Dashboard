@@ -4,6 +4,8 @@
     "java.project.referencedLibraries": [
         // All jars on lib/ are added to the classpath
         "lib/**/*.jar",
+        // Everything on lib/apache-poi is added to the classpath
+        "lib/apache-poi/**/*.jar",
         // Everything on lib/jogamp-all-platforms/jar/ is added to the classpath
         "lib/jogamp-all-platforms/jar/**/*.jar"
     ]
