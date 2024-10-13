@@ -1,193 +1,150 @@
 package dashboard;
 
-import java.util.logging.ConsoleHandler;
-import java.util.logging.FileHandler;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import java.util.logging.SimpleFormatter;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
+import javax.swing.JFrame;
+import javax.swing.JMenu;
 import javax.swing.WindowConstants;
-
-import java.awt.BorderLayout;
+import javax.swing.JMenuBar;
 import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
+import java.awt.Frame;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 
 public class Dashboard extends JFrame {
 
-    private static final String M_TITLE = "Dashboard - PFJN - 1705125";
+    /** createAndShowGui method to run the dashboard.
+     * 
+     * The createAndShowGui method will create a new JFrame object and set the title of the dashboard.
+     * The default close operation is set to exit the application.
+     * The size of the dashboard is set to full screen.
+     * 
+     * A menu bar is added to the dashboard.
+     * 
+     * Menus: Dashboard, File, Edit, View, Settings.
+     * 
+     * Menu items:
+     * 
+     * Dashboard - About, Help, Check For Updates, Exit.
+     * 
+     * File - New File, Open File, Save File, Save File As, Close.
+     * 
+     * Edit - Copy, Cut, Paste, Delete.
+     * 
+     * View - Zoom In, Zoom Out, Full Screen.
+     * 
+     * Settings - Tools, Customize, Preferences.
 
-    public Dashboard() {
-        setTitle(String.format("%s", M_TITLE));
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        /* Set the layout of the frame to BorderLayout. This layout manager is used to
-        * arrange the components in the five regions of the frame: NORTH, SOUTH, EAST,
-        * WEST, and CENTER.*/
-        setLayout(new BorderLayout());
+    * The main panel is added to the frame, then the pack method is called
+    * to resize the frame to fit the panel and finally the frame is set to visible.
 
-        // Logger object for the dashboard.
-        MyLogger dashboardLogger = new MyLogger("Dashboard.DashboardLogger", null);
+    * @param args The command line arguments.
+    * @version 1.0
+    * @author Pedro Nunes, 1705125
+    * @return 
+    **/
+    private static void createAndShowGui() {
+        // Create a new JFrame object.
+        JFrame frame = new Dashboard();
+        // Set the title of the dashboard.
+        frame.setTitle("Dashboard - PFJN - 1705125");
+        // Set the default close operation to exit the application.
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        // Set the dashboard to full screen.
+        frame.setExtendedState(Frame.MAXIMIZED_BOTH);
+        // Set the size of the dashboard.
+        Dimension fullScreen = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
+        frame.setPreferredSize(fullScreen);
+        
+        // Set the layout of the dashboard to GridBagLayout.
+        frame.setLayout(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = 0;                              // Column
+        gbc.gridy = 0;                              // Row
+        gbc.weightx = 1.0;                          // Weight of the column
+        gbc.weighty = 1.0;                          // Weight of the row
+        gbc.fill = GridBagConstraints.BOTH;         // Fill the column and row
+        gbc.anchor = GridBagConstraints.CENTER;     // Center the column and row
+
+        // Add a menu bar to the dashboard.
+        JMenuBar mb = new JMenuBar();
+        mb.setPreferredSize(new Dimension(fullScreen.width, 30));
+        frame.setJMenuBar(mb);
+
+        // Add menus to the menu bar.
+        // Add a main menu.
+        JMenu mbMenu = new JMenu("Dashboard");
+        mb.add(mbMenu);
+        // Add menu items to the help menu.
+        mbMenu.add("About");
+        mbMenu.add("Help");
+        mbMenu.add("Check For Updates");
+        mbMenu.add("Exit");
+        
+        // Add a file menu.
+        mbMenu = new JMenu("File");
+        mb.add(mbMenu);
+        // Add menu items to the file menu.
+        mbMenu.add("New File");
+        mbMenu.add("Open File");
+        mbMenu.add("Save File");
+        mbMenu.add("Save File As");
+        mbMenu.add("Close");
+
+        // Add a edit menu.
+        mbMenu = new JMenu("Edit");
+        mb.add(mbMenu);
+        // Add menu items to the edit menu.
+        mbMenu.add("Copy");
+        mbMenu.add("Cut");
+        mbMenu.add("Paste");
+        mbMenu.add("Delete");
+
+        // Add a view menu.
+        mbMenu = new JMenu("View");
+        mb.add(mbMenu);
+        // Add menu items to the view menu.
+        mbMenu.add("Zoom In");
+        mbMenu.add("Zoom Out");
+        mbMenu.add("Full Screen");
+
+        // Add a tools menu.
+        mbMenu = new JMenu("Settings");
+        mb.add(mbMenu);
+        // Add menu items to the settings menu.
+        mbMenu.add("Tools");
+        mbMenu.add("Customize");
+        mbMenu.add("Preferences");
 
         /**
-         * 
-         * @param mainPanel The main panel of the dashboard.
-         * 
-         * @param myLogger The logger object for the dashboard.
-         * 
-         * MainPanel is the main panel of the dashboard. It is the panel that will be
-         * displayed to the user. It will contain all the other panels and components
-         * of the dashboard.
-         * 
-         * By extending JFrame, the Dashboard class itself becomes a frame, and there
-         * is no need to create a separate JFrame instance.
-         * The constructor of Dashboard sets up the frame's properties and adds components to it.
-         * 
-         * Panels and other components can be added to the frame using the add() method.
-         */
-        try {
-            JPanel mainPanel = new MainPanel();
-            add(mainPanel, BorderLayout.CENTER);
-            dashboardLogger.logDashboardCreation();
-        } catch (Exception e) {
-            // Log the exception message.
-            dashboardLogger.info(e.getMessage());
-        }
+        * TODO - Add all menus and menu items kekyboard shortcuts.
+        * TODO - Add all menus and menu items eventListeners.
+        **/
+
+        /** Grid layout
+        * TODO - Add all panels to the grid layout.
+        *
+        *JPanel lineGraphPanel = new LineGraphPanel();
+        *JPanel barChartPanel = new BarChartPanel();
+        *JPanel pieChartPanel = new PieChartPanel();
+        *JPanel tablePanel = new TablePanel();
+        *JPanel mapPanel = new MapPanel();
+        *
+        * TODO - Add all panels to the frame.
+        *frame.getContentPane().add(lineGraphPanel, gbc);
+        *frame.getContentPane().add(barChartPanel, gbc);
+        *frame.getContentPane().add(pieChartPanel, gbc);
+        *frame.getContentPane().add(tablePanel, gbc);
+        *frame.getContentPane().add(mapPanel, gbc);
+        */
         
-        // pack() method is used to resize the frame so that all its contents are at or above their preferred sizes.
-        pack();
-        // Set the frame to be visible.
-        setVisible(true);
-        
+        // Display the frame.
+        frame.pack();
+        frame.setResizable(true);
+        frame.setLocationByPlatform(true);
+        frame.setVisible(true);
     }
 
     public static void main(String[] args) {
-        // The main method uses SwingUtilities.invokeLater to ensure that the GUI creation is done
-        // on the Event Dispatch Thread (EDT), which is the proper way to create and update the GUI in Swing.
-        SwingUtilities.invokeLater(Dashboard::new);
-    }
-}
-
-class MainPanel extends JPanel {
-
-    public MainPanel() {
-        // Set the panel size to the user's screen size.
-        Dimension fullScreen = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
-        setPreferredSize(fullScreen);
-    }
-
-    // Override the paintComponent method to draw the panel.
-    @Override
-    public void paintComponent(Graphics g) {
-        // Call the parent paintComponent method.
-        super.paintComponent(g);
-        // Cast the Graphics object to Graphics2D.
-        Graphics2D g2 = (Graphics2D) g;
-
-        // Dashboard begins here.
-    }
-}
-
-class MyLogger extends Logger {
-    private static final boolean V_LOGS_ENABLED = true;
-    private static final boolean V_CONSOLE_LOGS_ENABLED = true;
-    private static final String M_LOG_DISABLED = "Logging disabled";
-    private static final String M_CONSOLE_LOG_DISABLED = "Console logging disabled";
-    private static final String M_FILLER = String.format(
-        "######%-5s######%-5s######\t%-20s\t######%-5s######%-5s######",
-        "\s", "\s",
-        MyLogger.class.getName(),
-        "\s", "\s"
-    );
-
-    // Constructor
-    public MyLogger(String name, String resourceBundleName) {
-        super(name, resourceBundleName);
-
-        try {
-            // Create a console handler
-            ConsoleHandler consoleHandler = new ConsoleHandler();
-            consoleHandler.setLevel(Level.ALL);
-            this.addHandler(consoleHandler);
-
-            // Create a file handler
-            String logDir = "./logs";
-            FileHandler fileHandler = new FileHandler(logDir + "/dashboard.log", true);
-            fileHandler.setFormatter(new SimpleFormatter());
-            fileHandler.setLevel(Level.ALL);
-            this.addHandler(fileHandler);
-
-            // Set the logger level
-            this.setLevel(Level.ALL);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        // Log OS information.
-        logOsInfo();
-        // Log Java information.
-        logJavaInfo();
-    }
-
-    @Override
-    public void info(String msg) {
-        // Log the message.
-        try {
-            assert V_LOGS_ENABLED;
-            super.info(String.format("%n%s%n%s%n", M_FILLER, msg));
-        } catch (Exception e) {
-            // Log the exception message.
-            super.info(e.getMessage());
-            super.info(String.format("%s%n%s%n", M_LOG_DISABLED, M_FILLER));
-        }
-
-        // Log the message to the console.
-        try {
-            assert V_CONSOLE_LOGS_ENABLED;
-            super.info(String.format("%n%s%n%s%n", M_FILLER, msg));
-        } catch (Exception e) {
-            // Log the exception message.
-            super.info(e.getMessage());
-            super.info(String.format("%s%n%s%n", M_CONSOLE_LOG_DISABLED, M_FILLER));
-        }
-    }
-
-    // OS information.
-    public void logOsInfo() {
-        info(
-            // Table formated. All Legends first then on the second row centered values.
-            String.format(
-                "|\t%-18s\t|\t%-18s\t|\t%-18s\t|%n|\t%-18s\t|\t%-18s\t|\t%-18s\t|",
-                "OS Name", "OS Version", "OS Architecture",
-                System.getProperty("os.name"),
-                System.getProperty("os.version"),
-                System.getProperty("os.arch")
-            )
-        );
-    }
-
-    // Java information.
-    public void logJavaInfo() {
-        info(
-            // Table formated. All Legends first then on the second row centered values.
-            String.format(
-                "|\t%-18s\t|\t%-18s\t|\t%-18s\t|%n|\t%-18s\t|\t%-18s\t|\t%-18s\t|",
-                "Java Vendor", "Java Version", "Java Runtime Version",
-                System.getProperty("java.vendor"),
-                System.getProperty("java.version"),
-                System.getProperty("java.runtime.version")
-            )
-        );
-    }
-
-    // Dashboard creation.
-    public void logDashboardCreation() {
-        info(
-            String.format(
-                "%n\t- Dashboard created successfully -%n"
-            )
-        );
+        SwingUtilities.invokeLater(() -> createAndShowGui());
     }
 }
