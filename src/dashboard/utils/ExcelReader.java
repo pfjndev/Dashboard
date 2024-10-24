@@ -35,7 +35,7 @@ public class ExcelReader {
             if (data.isEmpty()) {
                 JOptionPane.showMessageDialog(null, "No numeric data found in the Excel file", "Warning", JOptionPane.WARNING_MESSAGE);
             } else {
-                lineGraphPanel.setData(data);
+                //lineGraphPanel.setData(data);
                 lineGraphPanel.repaint();
             }
         }
