@@ -153,7 +153,7 @@ public class KPIAvgRespTimePanel extends JPanel {
     }
 
     private JLabel createTitleLabel() {
-        JLabel titleLabel = new JLabel("Avg Response Time");
+        JLabel titleLabel = new JLabel("Average Response Time");
         titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
         titleLabel.setFont(TITLE_FONT);
         titleLabel.setForeground(TEXT_COLOR);
@@ -170,16 +170,10 @@ public class KPIAvgRespTimePanel extends JPanel {
     }
 
     private String createTooltipText() {
-        return String.format(
-            "<html><body style='width: 200px;'>" +
-            "<b>Current Average Response Time:</b> %.2f ms<br>" +
-            "<b>Status:</b> %s<br>" +
-            "<b>Last Updated:</b> %s" +
-            "</body></html>",
-            currentValue,
-            getStatusDescription(),
-            new java.util.Date().toString()
-        );
+        return
+            String.format("\nResponse time: %.2f ms", currentValue) +
+            String.format("\nStatus: %s", getStatusDescription()) +
+            String.format("\nLast updated: %s", new java.util.Date().toString());
     }
 
     private String getStatusDescription() {
