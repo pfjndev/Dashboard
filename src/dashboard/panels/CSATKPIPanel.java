@@ -1,46 +1,51 @@
 package dashboard.panels;
 
-import java.awt.Font;
+
 import java.awt.Color;
-import java.awt.Insets;
-import java.awt.Cursor;
-import java.awt.Graphics;
+import java.awt.Font;
 import java.awt.Dimension;
-import java.awt.Graphics2D;
-import java.awt.FontMetrics;
 import java.awt.BorderLayout;
-import java.awt.GridBagLayout;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.RenderingHints;
-import java.awt.event.MouseEvent;
+import java.awt.BasicStroke;
+import java.awt.FontMetrics;
+import java.awt.Cursor;
 import java.awt.event.MouseAdapter;
-import java.awt.GridBagConstraints;
+import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
+import java.awt.GridBagLayout;
+import java.awt.GridBagConstraints;
+import java.awt.Insets;
 
-import java.util.Random;
-import java.text.DecimalFormat;
-
-import javax.swing.Timer;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.ImageIcon;
-import javax.swing.UIManager;
-import javax.swing.JPopupMenu;
 import javax.swing.BorderFactory;
 import javax.swing.SwingConstants;
+import javax.swing.Timer;
+import javax.swing.JPopupMenu;
 import javax.swing.SwingUtilities;
+import javax.swing.JFrame;
+import javax.swing.UIManager;
+
+import java.text.DecimalFormat;
+import java.util.Random;
+
 
 public class CSATKPIPanel extends JPanel {
-    private static final int UPDATE_INTERVAL = 5000; // 5 seconds
+    private static final int UPDATE_INTERVAL = 1500; // 5 seconds
     private static final Color BACKGROUND_COLOR = new Color(30, 30, 30);
     private static final Color TEXT_COLOR = new Color(220, 220, 220);
+    private static final Color BORDER_COLOR = new Color(60, 60, 60);
+    private static final int CORNER_RADIUS = 15;
     private static final Font TITLE_FONT = new Font("Segoe UI", Font.BOLD, 14);
     private static final Font VALUE_FONT = new Font("Segoe UI", Font.BOLD, 18);
     private static final DecimalFormat DECIMAL_FORMAT = new DecimalFormat("#.##");
     private static final Dimension MINIMUM_SIZE = new Dimension(250, 100);
     private static final Dimension PREFERRED_SIZE = new Dimension(300, 120);
     private static final int SQUARE_SIZE = 60;
-    private static final int INDICATOR_SIZE = 20;
+    private static final int FACE_SIZE = 50;
 
     private final CSATIndicator indicator;
     private final Timer updateTimer;
@@ -168,10 +173,25 @@ public class CSATKPIPanel extends JPanel {
     }
 
     private String getStatusDescription() {
-        if (currentValue >= 90) return "Excellent";
-        if (currentValue >= 80) return "Good";
-        if (currentValue >= 70) return "Average";
-        return "Needs Improvement";
+        if (currentValue >= 80) return "Satisfied";
+        if (currentValue >= 60) return "Neutral";
+        return "Unsatisfied";
+    }
+
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        Graphics2D g2d = (Graphics2D) g.create();
+        // Draw background with rounded corners
+        g2d.setColor(BACKGROUND_COLOR);
+        g2d.fillRoundRect(0, 0, getWidth(), getHeight(), CORNER_RADIUS, CORNER_RADIUS);
+
+        // Draw white border
+        g2d.setColor(BORDER_COLOR);
+        g2d.setStroke(new BasicStroke(1));
+        g2d.drawRoundRect(0, 0, getWidth() - 1, getHeight() - 1, CORNER_RADIUS, CORNER_RADIUS);
+    
+        g2d.dispose();
     }
 
     private class CSATIndicator extends JPanel {
@@ -208,7 +228,7 @@ public class CSATKPIPanel extends JPanel {
 
                 drawValueText(g2d, valueStr, textX, textY);
                 drawIndicatorSquare(g2d, squareX, squareY);
-                drawIndicator(g2d, squareX, squareY);
+                drawFaceIndicator(g2d, squareX, squareY);
             } finally {
                 g2d.dispose();
             }
@@ -229,18 +249,36 @@ public class CSATKPIPanel extends JPanel {
             g2d.fillRoundRect(x, y, SQUARE_SIZE, SQUARE_SIZE, 10, 10);
         }
 
-        private void drawIndicator(Graphics2D g2d, int squareX, int squareY) {
+        private void drawFaceIndicator(Graphics2D g2d, int squareX, int squareY) {
             int centerX = squareX + SQUARE_SIZE / 2;
             int centerY = squareY + SQUARE_SIZE / 2;
             
-            Color indicatorColor;
-            if (value >= 90) indicatorColor = new Color(76, 175, 80);  // Green
-            else if (value >= 80) indicatorColor = new Color(255, 235, 59);  // Yellow
-            else if (value >= 70) indicatorColor = new Color(255, 152, 0);  // Orange
-            else indicatorColor = new Color(244, 67, 54);  // Red
+            Color faceColor;
+            if (value >= 80) faceColor = new Color(76, 175, 80);  // Green
+            else if (value >= 60) faceColor = new Color(255, 235, 59);  // Yellow
+            else faceColor = new Color(244, 67, 54);  // Red
 
-            g2d.setColor(indicatorColor);
-            g2d.fillOval(centerX - INDICATOR_SIZE / 2, centerY - INDICATOR_SIZE / 2, INDICATOR_SIZE, INDICATOR_SIZE);
+            g2d.setColor(faceColor);
+            g2d.fillOval(centerX - FACE_SIZE / 2, centerY - FACE_SIZE / 2, FACE_SIZE, FACE_SIZE);
+
+            // Draw eyes
+            g2d.setColor(Color.BLACK);
+            int eyeSize = FACE_SIZE / 10;
+            g2d.fillOval(centerX - FACE_SIZE / 4, centerY - FACE_SIZE / 5, eyeSize, eyeSize);
+            g2d.fillOval(centerX + FACE_SIZE / 4 - eyeSize, centerY - FACE_SIZE / 5, eyeSize, eyeSize);
+
+            // Draw mouth
+            g2d.setStroke(new BasicStroke(2));
+            if (value >= 80) {
+                // Smiley face
+                g2d.drawArc(centerX - FACE_SIZE / 3, centerY - FACE_SIZE / 6, FACE_SIZE * 2 / 3, FACE_SIZE / 3, 0, -180);
+            } else if (value >= 60) {
+                // Neutral face
+                g2d.drawLine(centerX - FACE_SIZE / 3, centerY + FACE_SIZE / 5, centerX + FACE_SIZE / 3, centerY + FACE_SIZE / 5);
+            } else {
+                // Sad face
+                g2d.drawArc(centerX - FACE_SIZE / 3, centerY + FACE_SIZE / 6, FACE_SIZE * 2 / 3, FACE_SIZE / 3, 0, 180);
+            }
         }
     }
 
