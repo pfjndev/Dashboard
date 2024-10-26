@@ -51,20 +51,19 @@ public class Dashboard extends JFrame {
         add(titleLabel);                            // Add title to the dashboard panel */
 
         // First Row
-        add((new ProductNamePanel()), gbc(0, 1));           // First element
+        add((new ProductNamePanel("Coca-Cola", "https://purepng.com/public/uploads/medium/purepng.com-coca-cola-bottlecoca-colacokecarbonated-soft-drinksoft-drinkcoke-bottle-1411527233225nl5vr.png", "Beverages", 0.99, 100)), gbc(0, 1));           // First element
         add((new KPIAvgRespTimePanel()), gbc(1, 1));   // Second element
         add((new CSATKPIPanel()), gbc(2, 1));     // Third element
-        add((new FacesPanel()), gbc(3, 1));                 // Fourth element
 
         // Second Row
-        add(new CircularCSATPanel(), gbc(0, 2));            // First element
-        add(new CustomerEffortGaugePanel(), gbc(1, 2));     // Second element
-        add(new NPSGaugePanel(), gbc(2, 2));                // Third element
+        add(new CSATCircularKPIPanel(), gbc(0, 2));            // First element
+        add(new CESGaugePanel(), gbc(1, 2));     // Second element
+        add(new CSATOverMonthAreaChartPanel(APP_TITLE), gbc(2, 2));                // Third element
 
         // Third Row
-        add(new SatisfactionBreakdownChartPanel(), gbc(0, 3)); // First element
+        add(new VerticalStackedBarChartPanel(APP_TITLE), gbc(0, 3)); // First element
         add(new KPIAvgRespTimePanel(), gbc(1, 3));        // Second element
-        add(new CSATKPIPanel(), gbc(2, 3));          // Third element
+        add(new NPSGaugePanel(), gbc(2, 3));          // Third element
         
         pack();
         setVisible(true);
