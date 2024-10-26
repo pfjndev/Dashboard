@@ -20,7 +20,7 @@ public class KPIAvgRespTimePanel extends JPanel {
     private static final int INDICATOR_SIZE = 20;
     private static final int CORNER_RADIUS = 15;
     private static final int INFO_ICON_SIZE = 20;
-    private static final int UPDATE_INTERVAL = 1000; // 1 second
+    private static final int UPDATE_INTERVAL = 1500; // 1 second
     
     private static final Dimension MINIMUM_SIZE = new Dimension(250, 100);
     private static final Dimension PREFERRED_SIZE = new Dimension(300, 120);
