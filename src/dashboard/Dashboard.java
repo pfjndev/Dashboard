@@ -1,16 +1,20 @@
 package dashboard;
 
-import javax.swing.*;
-import java.awt.*;
+import java.awt.Font;
+import java.awt.Color;
+import java.awt.Insets;
+import java.awt.GridBagLayout;
+import java.awt.GridBagConstraints;
 
-import dashboard.panels.FacesPanel;
-import dashboard.panels.ProductNamePanel;
-import dashboard.panels.KPIAvgRespTimePanel;
-import dashboard.panels.CSATOverMonthAreaChart;
-import dashboard.panels.CircularCSATPanel;
-import dashboard.panels.CustomerEffortGaugePanel;
-import dashboard.panels.NPSGaugePanel;
-import dashboard.panels.SatisfactionBreakdownChartPanel;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.UIManager;
+import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
+
+import dashboard.panels.*;
 
 public class Dashboard extends JFrame {
 
@@ -22,9 +26,15 @@ public class Dashboard extends JFrame {
     private static final Color FOREGROUND_COLOR = Color.WHITE;
     private static final Color BACKGROUND_COLOR = new Color(0x1F2A44);
     
-    private static final String APP_TITLE = "Support Team Slide Dashboard";
+    private static final String APP_TITLE = "Dashboard";
 
     public Dashboard() {
+        try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         setTitle("PFJN - 1705125");               // Set the title of the dashboard
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Close the application when clicking the close button
         setExtendedState(JFrame.MAXIMIZED_BOTH);        // Fullscreen
@@ -32,35 +42,19 @@ public class Dashboard extends JFrame {
 
         getMbMenu(this);
 
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.fill = GridBagConstraints.BOTH;
-        gbc.weightx = 1;
-        gbc.weighty = 1;
-
         // Application Title
-        JLabel titleLabel = new JLabel(APP_TITLE, SwingConstants.CENTER);
+/*         JLabel titleLabel = new JLabel(APP_TITLE, SwingConstants.CENTER);
         titleLabel.setFont(FONT);                   // Custom font
         titleLabel.setBackground(BACKGROUND_COLOR); // Dark background
         titleLabel.setOpaque(true);        // Ensure background color is visible
         titleLabel.setForeground(FOREGROUND_COLOR); // White text
-        gbc.gridwidth = 4;                          // Span across all columns
-        gbc.gridx = 0;                              // Start at first column
-        gbc.gridy = 0;                              // First row
-        gbc.weighty = 0.1;                          // Title takes 10% of the height
-        add(titleLabel, gbc);                       // Add title to the dashboard panel
-
-        gbc.gridwidth = 1;                          // Reset grid width for further components
-        gbc.weighty = 1;                            // Reset weight for the rest of the components
+        add(titleLabel);                            // Add title to the dashboard panel */
 
         // First Row
         add((new ProductNamePanel()), gbc(0, 1));           // First element
         add((new KPIAvgRespTimePanel()), gbc(1, 1));   // Second element
-        add((new CSATOverMonthAreaChart()), gbc(2, 1));     // Third element
-        gbc.gridheight = 2;                                     // Last element spans 2 rows
+        add((new CSATKPIPanel()), gbc(2, 1));     // Third element
         add((new FacesPanel()), gbc(3, 1));                 // Fourth element
-
-        // Reset gridheight for the second row
-        gbc.gridheight = 1;
 
         // Second Row
         add(new CircularCSATPanel(), gbc(0, 2));            // First element
@@ -70,19 +64,21 @@ public class Dashboard extends JFrame {
         // Third Row
         add(new SatisfactionBreakdownChartPanel(), gbc(0, 3)); // First element
         add(new KPIAvgRespTimePanel(), gbc(1, 3));        // Second element
-        add(new CSATOverMonthAreaChart(), gbc(2, 3));          // Third element
+        add(new CSATKPIPanel(), gbc(2, 3));          // Third element
         
         pack();
         setVisible(true);
     }
 
-    private GridBagConstraints gbc(int x, int y) {
+    private static GridBagConstraints gbc(int col, int row) {
         GridBagConstraints gbc = new GridBagConstraints();
-        gbc.gridx = x;
-        gbc.gridy = y;
+        gbc.gridx = col;
+        gbc.gridy = row;
         gbc.fill = GridBagConstraints.BOTH;
-        gbc.weightx = 1;
-        gbc.weighty = 1;
+        gbc.weightx = 1.0;
+        gbc.weighty = 1.0;
+        gbc.insets = new Insets(5, 5, 5, 5);
+
         return gbc;
     }
 
